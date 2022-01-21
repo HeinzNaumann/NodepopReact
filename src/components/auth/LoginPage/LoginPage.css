@@ -1,0 +1,5 @@
+form {
+  display: grid;
+  grid-template-columns: 50%;
+  justify-content: center;
+}
