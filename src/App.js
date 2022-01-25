@@ -24,7 +24,7 @@ function App({ isInitiallyLogged }) {
   };
   return (
     <Router>
-      <AuthContextProvider value={{ isLogged, handleLogout, handleLogin }}>
+      <AuthContextProvider value={{ isLogged, handleLogout, handleLogin}}>
         <div className='App'>
           <Switch>
             <Route path='/login'>

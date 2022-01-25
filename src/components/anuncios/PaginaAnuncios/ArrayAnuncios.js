@@ -5,16 +5,31 @@ import { ListaVacia } from "./PaginaAnuncios";
 
 import styles from "./AnunciosPagina.module.css";
 
-const ArrayAnuncio = ({ anuncios, valueName, valueApellido }) => {
-  var filtrados = anuncios.filter(anuncio => {
-    return anuncio.name === valueName;
-  });
+const ArrayAnuncio = ({ anuncios, valueName, valuePrecio,  valueTags, valueSale}) => {
+  var filtrados = anuncios.filter((anuncio) => {
+    if (anuncio.name === valueName) {
+      return anuncio.name;
 
-  if (filtrados.length === 0) {
-    var filtrados = anuncios.filter(anuncio => {
-      return anuncio;
+    }else if (anuncio.price == valuePrecio) {
+      return anuncio.price;
+    } else if (anuncio.tags.includes("mobile", "lifestyle") === valueTags.includes("lifestyle","mobile")) {
+      console.log(anuncio.tags)
+      return anuncio.tags;
+    } else if (anuncio.sale != valueSale) {
+ 
+      return anuncio.sale;
+    }
+  });
+ 
+  console.log(filtrados)
+  
+   if (filtrados.length === 0) {
+    filtrados = anuncios.filter( () => {
+      return "No  hay anuncios";
     });
   }
+  
+
 
   return (
     <Fragment>
@@ -28,7 +43,7 @@ const ArrayAnuncio = ({ anuncios, valueName, valueApellido }) => {
                     <img
                       alt='imagenes-articulos'
                       className='imagenes-anuncios'
-                      src={`${process.env.REACT_APP_API_BASE_URL}${anuncio.photo   }`}
+                      src={anuncio.photo  === null ? "/logo192.png" : `${process.env.REACT_APP_API_BASE_URL}${anuncio.photo}` }
                     />
                     <h2>{anuncio.name}</h2>
                     <p>

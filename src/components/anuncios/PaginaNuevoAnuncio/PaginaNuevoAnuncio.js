@@ -3,15 +3,33 @@ import Button from "../../common/button";
 import { useState } from "react";
 import { createAnuncio } from "../service";
 
+import "./PaginaNuevoAnuncio.css"
+
 function PaginaNuevoAnuncio({ history }) {
   const [value, setValue] = useState({
     name: "",
-    sale: "",
+    sale: "all",
     photo: "",
     tags: [],
     price: "",
   });
 
+
+  const checkModifier = (e) => {
+    let multiselect = [...value.tags];
+    const changedInput = e.target.name;
+    const inputValue = e.target.value;
+     if (multiselect.indexOf(inputValue) < 0) {
+      multiselect.push(inputValue);
+    } else {
+      multiselect = multiselect.filter((e) => e !== inputValue);
+    }
+    setValue({
+      ...value,
+      [changedInput]: multiselect,
+    })
+  }
+  
   const handleChange = e => {
     setValue({
       ...value,
@@ -24,9 +42,12 @@ function PaginaNuevoAnuncio({ history }) {
 
     try {
       const data = new FormData(event.target);
+      console.log(event)
       await createAnuncio(data);
       history.push("/");
-    } catch {}
+    } catch (ex) {
+  console.error('outer', ex);
+   }
   };
 
   return (
@@ -46,16 +67,33 @@ function PaginaNuevoAnuncio({ history }) {
           value={value.sale}
           onChange={handleChange}
         >
-          <option value='true'> Se compra </option>
-          <option value='false'>Se vende</option>
+          <option value='buy'> Se compra </option>
+          <option value='sale'>Se vende</option>
         </select>
-        <label>Introduce la categoria </label>
-        <select name='tags' onChange={handleChange}>
-          <option value='lifestyle'>lifestyle</option>
-          <option value='mobile'>mobile</option>
-          <option value='motor'>motor</option>
-          <option value='work'>work</option>
-        </select>
+        <label htmlFor="tags"> Choose tags </label>
+        <div className="select select-multiple">
+            <select
+              name="tags"
+              value={[value.tags]}
+              onChange={checkModifier}
+              multiple={true}
+            >
+              <option  name="lifestyle" value="lifestyle" >
+                lifestyle
+              </option>
+              <option name="mobile" value="mobile" >
+                mobile
+              </option>
+              <option name="motor" value="motor" >
+                motor
+              </option>
+              <option name="work" value="work" >
+                work
+              </option>
+          </select>
+          <span className="focus"></span>
+          </div>
+ 
 
         <label>Introduce el precio </label>
         <input
@@ -64,10 +102,11 @@ function PaginaNuevoAnuncio({ history }) {
           value={value.price}
           onChange={handleChange}
         />
+        
         <input
           name='photo'
           type='file'
-          value={value.photo}
+          value={value.photo }
           onChange={handleChange}
         />
         <Button

@@ -8,18 +8,17 @@ import Layout from "../../layout/Layout";
 import "./PaginaAnuncios.css";
 
 function PaginaAnuncio({ match, history }) {
-  console.log(match);
 
   const [anuncio, setAnuncios] = useState([]);
-
+  
   const borrarAnuncio = function () {
     deleteAnuncio(match.params.Id).then(history.push("/"));
   };
 
   useEffect(() => {
     getUltimoAnuncio(match.params.Id).then(setAnuncios);
-  }, []);
-
+  }, [match.params.Id]);
+    
   return (
     <Layout title='Detalle Anuncio'>
       <ul className='contenedor-anuncios'>

@@ -13,6 +13,11 @@ export const createAnuncio = anuncio => {
   return client.post(url, anuncio);
 };
 
+
+export const getTags = () => {
+  return client.get(`${anunciosBaseUrl}/adverts/tags`);
+}
+
 export const getUltimoAnuncio = id => {
   const url = `${anunciosBaseUrl}/adverts/${id}`;
   return client.get(url);

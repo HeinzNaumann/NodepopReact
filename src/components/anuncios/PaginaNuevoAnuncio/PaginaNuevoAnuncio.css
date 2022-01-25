@@ -1,0 +1,23 @@
+.p-label {
+  margin: 5px 0;
+}
+
+.select:not(.select--multiple)::after select[multiple] {
+  padding-right: 0;
+}
+
+select[multiple] option {
+  white-space: normal;
+}
+
+select[multiple] {
+  height: 5rem;
+}
+
+select[multiple]:focus option:checked {
+  background: red linear-gradient(0deg, red 0%, red 100%);
+}
+
+select[multiple]:hover {
+  cursor: pointer;
+}
