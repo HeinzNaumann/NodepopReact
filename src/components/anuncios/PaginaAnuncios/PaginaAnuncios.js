@@ -11,7 +11,6 @@ import ArrayAnuncio from "./ArrayAnuncios";
 import "./PaginaAnuncios.css";
 
 import styles from "./AnunciosPagina.module.css";
-import SelectTags from "../SelectTags/selectTags";
 
 export const ListaVacia = () => (
   <div style={{ textAlign: "center" }}>
@@ -22,44 +21,52 @@ export const ListaVacia = () => (
   </div>
 );
 
+
+
 function PaginaAnuncios(...props) {
 
   //Listado de  todos los anuncios
   const [anuncios, setAnuncios] = useState([]);
-  
+
+  const saleFilter = {
+  all: { value: 'all', label: 'All' },
+  sell: { value: 'sell', label: 'Sell' },
+  buy: { value: 'buy', label: 'Buy' },
+};
+
   //Elementos del  filtro
   const [elementosFiltro, setValue] = useState({
     name: "",
     price: 0,
-    sale: "all",
+    sale: saleFilter.all.value,
     tags: []
 
   });
 
-   const handleChange = event => {
+  const handleChange = event => {
     setValue(() => ({
       ...elementosFiltro,
       [event.target.name]: event.target.value,
-      [event.target.price]: event.target.value,
-      [event.target.sale]: event.target.value
     }));
   };
 
-  const checkModifier = (e) => {
+    const checkModifier = (e) => {
+
     let multiselect = [...elementosFiltro.tags];
-    const changedInput = e.target.name;
-    const inputValue = e.target.value;
-     if (multiselect.indexOf(inputValue) < 0) {
-      multiselect.push(inputValue);
+    const checkeName = e.target.value;
+    
+     if (multiselect.indexOf(checkeName) < 0) {
+      multiselect.push(checkeName);
     } else {
-      multiselect = multiselect.filter((e) => e !== inputValue);
+      multiselect = multiselect.filter((e) => e !== checkeName);
     }
     setValue({
       ...elementosFiltro,
-      [changedInput]: multiselect,
+      tags : multiselect,
     })
   }
-
+  
+  
 
   useEffect(() => {
     getUltimosAnuncios().then(setAnuncios);
@@ -81,20 +88,30 @@ function PaginaAnuncios(...props) {
         <label>Price</label>
         <input type='number' name='price' onChange={handleChange} />
          <div className="select select-multiple">
-          <SelectTags {...props}/>
+          
           <span className="focus"></span>
         </div>
+        <label htmlFor="tags"> Escoge un precio </label>
          <select
-          type='checkbox'
           name='sale'
           value={elementosFiltro.sale}
           onChange={handleChange}
         >
-          <option value='all'> Todos </option>
-          <option value='buy'> Se compra </option>
-          <option value='sell'>Se vende</option>
+          <option value={saleFilter.all.value}> Todos </option>
+          <option value={saleFilter.buy.value}> Se compra </option>
+          <option value={saleFilter.sell.value}>Se vende</option>
         </select>
-        <button type='submit'>Filter</button>
+        <label htmlFor="tags"> Elige una categoria
+        </label>
+        <label >lyfestyle</label>
+        <input type="checkbox" name="tags"  onChange={checkModifier} value="lyfestyle" />
+        <label >Motor</label>
+        <input type="checkbox" name="tags" onChange={checkModifier} value="motor" />
+        <label >Mobile</label>
+        <input type="checkbox" onChange={checkModifier} value="mobile" />
+        <label >Work</label>
+        <input type="checkbox"  onChange={checkModifier} value="work"/>
+       
       </form>
       <ArrayAnuncio
         

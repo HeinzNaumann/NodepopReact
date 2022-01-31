@@ -5,30 +5,62 @@ import { ListaVacia } from "./PaginaAnuncios";
 
 import styles from "./AnunciosPagina.module.css";
 
-const ArrayAnuncio = ({ anuncios, valueName, valuePrecio,  valueTags, valueSale}) => {
-  var filtrados = anuncios.filter((anuncio) => {
-    if (anuncio.name === valueName) {
-      return anuncio.name;
+const ArrayAnuncio = ({ anuncios, valueName, valuePrecio, valueTags, valueSale }) => {
+   
 
-    }else if (anuncio.price == valuePrecio) {
-      return anuncio.price;
-    } else if (anuncio.tags.includes("mobile", "lifestyle") === valueTags.includes("lifestyle","mobile")) {
-      console.log(anuncio.tags)
-      return anuncio.tags;
-    } else if (anuncio.sale != valueSale) {
- 
+  let filtrados = anuncios.filter((anuncio) => {
+
+    if (valueSale === "all" && valueSale.sale === true && valueSale === true) {
       return anuncio.sale;
     }
+
+    if (anuncio.sale === true) {
+      anuncio.sale = "sell";
+      console.log(anuncio.sale);
+    }
+
+    if (anuncio.sale === valueSale) {
+      return anuncio.sale;
+    }
+
+       if (anuncio.sale === false) {
+      anuncio.sale = "buy";
+      console.log(anuncio.sale);
+    }
+
+    if (anuncio.sale === valueSale) {
+      return anuncio.sale;
+    }
+
+    //Filtro Tags
+      let result = true;
+      for (let i=0; i < valueTags.length; i++) {
+        result = result && anuncio.tags.includes(valueTags[i]);
+        if (result) {
+          return anuncio.tags;
+        }
+      }
+    //Filtro Nombre
+    if (anuncio.name === valueName) {
+      return anuncio.name;
+      
+    //Filtro precio
+    } else if (anuncio.price == valuePrecio) {
+      return anuncio.price;
+    } 
+
+   
   });
- 
-  console.log(filtrados)
-  
+
+
+
    if (filtrados.length === 0) {
     filtrados = anuncios.filter( () => {
       return "No  hay anuncios";
     });
-  }
+   }
   
+  console.log(filtrados)
 
 
   return (
@@ -55,7 +87,7 @@ const ArrayAnuncio = ({ anuncios, valueName, valuePrecio,  valueTags, valueSale}
                     </p>
                     <p>
                       <strong> Estado: </strong>
-                      {anuncio.sale ? `En venta` : `Se compra`}
+                      {anuncio.sale ? `Se compra` : `En venta`}
                     </p>
                   </div>
                 </Link>

@@ -8,7 +8,7 @@ import "./PaginaNuevoAnuncio.css"
 function PaginaNuevoAnuncio({ history }) {
   const [value, setValue] = useState({
     name: "",
-    sale: "all",
+    sale: "true",
     photo: "",
     tags: [],
     price: "",
@@ -16,21 +16,24 @@ function PaginaNuevoAnuncio({ history }) {
 
 
   const checkModifier = (e) => {
+  
     let multiselect = [...value.tags];
-    const changedInput = e.target.name;
-    const inputValue = e.target.value;
-     if (multiselect.indexOf(inputValue) < 0) {
-      multiselect.push(inputValue);
+    console.log(multiselect)
+    const checkeName = e.target.value;
+    
+     if (multiselect.indexOf(checkeName) < 0) {
+      multiselect.push(checkeName);
     } else {
-      multiselect = multiselect.filter((e) => e !== inputValue);
+      multiselect = multiselect.filter((e) => e !== checkeName);
     }
     setValue({
       ...value,
-      [changedInput]: multiselect,
+      tags : multiselect,
     })
   }
   
   const handleChange = e => {
+    console.log(e.target.value)
     setValue({
       ...value,
       [e.target.name]: e.target.value,
@@ -42,11 +45,11 @@ function PaginaNuevoAnuncio({ history }) {
 
     try {
       const data = new FormData(event.target);
-      console.log(event)
+      console.log(data);
       await createAnuncio(data);
       history.push("/");
-    } catch (ex) {
-  console.error('outer', ex);
+    } catch (error) {
+  console.error('outer', error);
    }
   };
 
@@ -62,38 +65,22 @@ function PaginaNuevoAnuncio({ history }) {
         />
         <label>Introduce si esta en venta o se compra </label>
         <select
-          type='checkbox'
           name='sale'
           value={value.sale}
           onChange={handleChange}
         >
-          <option value='buy'> Se compra </option>
-          <option value='sale'>Se vende</option>
+          <option value="true">Se compra </option>
+          <option value="false">Se vende</option>
         </select>
         <label htmlFor="tags"> Choose tags </label>
-        <div className="select select-multiple">
-            <select
-              name="tags"
-              value={[value.tags]}
-              onChange={checkModifier}
-              multiple={true}
-            >
-              <option  name="lifestyle" value="lifestyle" >
-                lifestyle
-              </option>
-              <option name="mobile" value="mobile" >
-                mobile
-              </option>
-              <option name="motor" value="motor" >
-                motor
-              </option>
-              <option name="work" value="work" >
-                work
-              </option>
-          </select>
-          <span className="focus"></span>
-          </div>
- 
+        <label >lyfestyle</label>
+        <input type="checkbox" name="tags"  onChange={checkModifier} value="lyfestyle" />
+        <label >Motor</label>
+        <input type="checkbox" name="tags" onChange={checkModifier} value="motor" />
+        <label >Mobile</label>
+        <input type="checkbox" onChange={checkModifier} value="mobile" />
+        <label >Work</label>
+        <input type="checkbox"  onChange={checkModifier} value="work"/>
 
         <label>Introduce el precio </label>
         <input
