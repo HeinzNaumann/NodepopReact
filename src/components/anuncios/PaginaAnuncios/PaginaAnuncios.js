@@ -105,13 +105,8 @@ function PaginaAnuncios(...props) {
       <form onSubmit={handleSubmit}>
         <label>Busca un producto</label>
         <input type='text' name='name' onChange={handleChange} />
-        <label>Price</label>
-        <input type='number' name='price' onChange={handleChange} />
-         <div className="select select-multiple">
-          
-          <span className="focus"></span>
-        </div>
-  
+        <label>Selecciona un rango de precio</label>
+
         <MySlider
 
           defaultValue={[0, 10000]}
