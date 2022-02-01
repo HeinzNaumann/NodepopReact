@@ -40,14 +40,19 @@ const ArrayAnuncio = ({ anuncios, valueName, valuePrecio, valueTags, valueSale }
           return anuncio.tags;
         }
       }
+    
+    
     //Filtro Nombre
     if (anuncio.name === valueName) {
       return anuncio.name;
-      
     //Filtro precio
-    } else if (anuncio.price == valuePrecio) {
+    } else if (anuncio.price >= valuePrecio[0] && anuncio.price <= valuePrecio[1]) {
+      console.log(valuePrecio[0])
+      console.log(anuncio.price)
+      
       return anuncio.price;
     } 
+
 
    
   });

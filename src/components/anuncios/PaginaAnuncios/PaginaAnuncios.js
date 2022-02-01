@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Button from "../../common/button";
 import Layout from "../../layout/Layout";
 
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 
 //Archivos que pasamos
 import { getUltimosAnuncios } from "../service";
@@ -11,6 +14,10 @@ import ArrayAnuncio from "./ArrayAnuncios";
 import "./PaginaAnuncios.css";
 
 import styles from "./AnunciosPagina.module.css";
+
+
+const MySlider = Slider.createSliderWithTooltip(Slider.Range);
+
 
 export const ListaVacia = () => (
   <div style={{ textAlign: "center" }}>
@@ -37,7 +44,7 @@ function PaginaAnuncios(...props) {
   //Elementos del  filtro
   const [elementosFiltro, setValue] = useState({
     name: "",
-    price: 0,
+    price: "",
     sale: saleFilter.all.value,
     tags: []
 
@@ -64,7 +71,20 @@ function PaginaAnuncios(...props) {
       ...elementosFiltro,
       tags : multiselect,
     })
+    }
+  
+  const checkPriceValue = (e) => {
+       
+    console.log(e)
+
+    let multiselectPrice = e;
+
+    setValue({
+      ...elementosFiltro,
+      price : multiselectPrice,
+    })
   }
+  
   
   
 
@@ -91,6 +111,19 @@ function PaginaAnuncios(...props) {
           
           <span className="focus"></span>
         </div>
+  
+        <MySlider
+
+          defaultValue={[0, 10000]}
+          name="price"
+          min={0}
+          max={10000}
+          onChange={checkPriceValue}
+          railStyle={{
+            height: 2
+          }}/>
+
+       
         <label htmlFor="tags"> Escoge un precio </label>
          <select
           name='sale'
